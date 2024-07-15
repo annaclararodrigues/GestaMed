@@ -1,30 +1,49 @@
-package Classes;
+package classes;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
-public class Doenca {
-	ArrayList<Medicamento> medicamentos = new ArrayList<>();
-	private String nome;
-	
-	public Doenca(String nome, Medicamento medicamento) {
-		this.nome = nome;
-		this.medicamentos.add(medicamento);
-	}
-	
-	public String getNome(){
-		return nome;
-	}
-	
-	public String listarMedicamento() {
-		String lista = "";
-		for(Medicamento medicamento : medicamentos) {
-			lista += medicamento.toString();
-			lista += "\n";
-		}
-		return lista;
-	}
+public class Doenca implements Serializable {
 
-	public void novoMedicamento(Medicamento medicamento) {
-		this.medicamentos.add(medicamento);
-	}
+    HashMap<String, Medicamento> medicamentos = new HashMap<>();
+    private String nome;
+
+    public Doenca(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String mostrarMedicamento() {
+        String lista = "";
+        Iterator<Entry<String, Medicamento>> iterator = medicamentos.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Entry<String, Medicamento> entrada = iterator.next();
+            Medicamento medicamento = entrada.getValue();
+            lista += medicamento.toString() + "\n";
+        }
+
+        return lista;
+    }
+
+    public String listarMedicamento() {
+        String lista = "";
+        Iterator<Entry<String, Medicamento>> iterator = medicamentos.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Entry<String, Medicamento> entrada = iterator.next();
+            lista += entrada.getKey() + "\n";
+        }
+
+        return lista;
+    }
+
+    public void addMedicamento(Medicamento medicamento) {
+        this.medicamentos.put(medicamento.getNome(), medicamento);
+    }
 }
